@@ -1,0 +1,16 @@
+project.name = '{{cookiecutter.app_name}}'
+
+application_for :ios, '{{cookiecutter.deployment_target}}' do |target|
+  target.name = '{{cookiecutter.app_name}}'
+  target.all_configurations.each do |config|
+    config.product_bundle_identifier = 'com.{{cookiecutter.company_name|lower}}.{{cookiecutter.app_name|lower}}'
+  end
+
+  unit_tests_for target
+
+  target.schemes = []
+end
+
+project.after_save do
+  system "rm -rf \"#{project.name}.xcodeproj/xcshareddata/xcschemes\""
+end
