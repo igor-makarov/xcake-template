@@ -1,5 +1,5 @@
 #!/bin/bash -e
-touch "{{cookiecutter.app_name}}/Supporting Files/R.generated.swift"
+touch "{{cookiecutter.app_name}}/Resources/Generated/R.generated.swift"
 bundle install
 bundle exec xcake make
 bundle exec pod install
