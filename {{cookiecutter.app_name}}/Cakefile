@@ -8,7 +8,14 @@ application_for :ios, '{{cookiecutter.deployment_target}}' do |target|
 
   unit_tests_for target
 
-  target.schemes = []
+  rswift_file = '$SRCROOT/{{cookiecutter.app_name}}/Supporting Files/R.generated.swift'
+  rswift_generate_script = <<-GENERATE
+  "${PODS_ROOT}/R.swift/rswift" generate "#{rswift_file}"
+  GENERATE
+  target.pre_shell_script_build_phase('R.swift generate', rswift_generate_script) do |phase|
+    phase.input_paths = ['$TEMP_DIR/rswift-lastrun']
+    phase.output_paths = [rswift_file]
+  end
 end
 
 project.after_save do
