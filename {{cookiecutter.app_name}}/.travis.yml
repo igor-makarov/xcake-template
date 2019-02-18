@@ -1,0 +1,14 @@
+install: true
+before_script:
+  - bundle install
+  - bundle exec xcake make
+  - bundle exec pod install --verbose
+
+script:
+  - xcodebuild -workspace {{cookiecutter.app_name}}.xcworkspace -scheme {{cookiecutter.app_name}} -sdk iphonesimulator
+
+matrix:
+  include:
+    - os: osx
+      language: objective-c
+      osx_image: xcode10.1
