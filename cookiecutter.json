@@ -1,5 +1,6 @@
 {
     "app_name": "AwesomeApp",
     "company_name": "AwesomeCompany",
-    "deployment_target": "10.0"
+    "deployment_target": "10.0",
+    "bundle_id": "com.{{cookiecutter.company_name|lower|replace(' ', '-')}}.{{cookiecutter.app_name|lower|replace(' ', '-')}}"
 }

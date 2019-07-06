@@ -5,10 +5,14 @@ project.name = '{{cookiecutter.app_name}}'
 application_for :ios, '{{cookiecutter.deployment_target}}' do |target|
   target.name = '{{cookiecutter.app_name}}'
   target.all_configurations.each do |config|
-    config.product_bundle_identifier = 'com.{{cookiecutter.company_name|lower}}.{{cookiecutter.app_name|lower}}'
+    config.product_bundle_identifier = '{{cookiecutter.bundle_id}}'
   end
 
-  unit_tests_for target
+  unit_tests_for target do |tests|
+    tests.all_configurations.each do |config|
+      config.product_bundle_identifier = '{{cookiecutter.bundle_id}}.tests'
+    end
+  end
 
   swiftlint_file = '${BUILT_PRODUCTS_DIR}/SwiftLint-touched.txt'
   swiftlint_phase_script = <<-SWIFTLINT
