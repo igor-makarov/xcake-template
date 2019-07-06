@@ -7,6 +7,9 @@ bundle exec xcake make
 bundle exec pod install
 
 git init
+git add .
+git commit -m 'Initial Commit' --quiet
+
 GREEN='\033[0;32m'
 NO_COLOR='\033[0m'
 
