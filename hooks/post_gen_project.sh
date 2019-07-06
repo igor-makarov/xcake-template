@@ -1,10 +1,15 @@
 #!/bin/bash -e
+
 touch "{{cookiecutter.app_name}}/Resources/Generated/R.generated.swift"
+
 bundle install
 bundle exec xcake make
 bundle exec pod install
+
 git init
 GREEN='\033[0;32m'
-echo -e "${GREEN}Project successfuly generated!"
-echo -e "${GREEN}You will need to install bundler and pods for the project. Checkout the generated project Readme to get started."
+NO_COLOR='\033[0m'
+
+echo -e "${GREEN}Project successfuly generated!${NO_COLOR}"
+
 open "{{cookiecutter.app_name}}.xcworkspace"
