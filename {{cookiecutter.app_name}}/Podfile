@@ -1,4 +1,4 @@
-source 'https://cdn.cocoapods.org/'
+require 'censorius'
 
 use_frameworks!
 
@@ -17,6 +17,13 @@ target '{{cookiecutter.app_name}}' do
 end
 
 post_install do |installer|
+  generated_projects = installer.generated_projects
+  generated_projects.each do |project|
+    generator = Censorius::UUIDGenerator.new([project])
+    generator.generate!
+    generator.write_debug_paths unless ENV['CENSORIUS_SPEC_DEBUG'].nil?
+  end
+
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ""
@@ -25,4 +32,12 @@ post_install do |installer|
       config.build_settings['SWIFT_VERSION'] = '5.0'
     end
   end
+end
+post_integrate do |_installer|
+  user_project = Xcodeproj::Project.open('{{cookiecutter.app_name}}.xcodeproj')
+  user_project.sort
+  generator = Censorius::UUIDGenerator.new([user_project])
+  generator.generate!
+  generator.write_debug_paths unless ENV['CENSORIUS_SPEC_DEBUG'].nil?
+  user_project.save
 end

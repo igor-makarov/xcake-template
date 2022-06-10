@@ -1,3 +1,4 @@
+require 'censorius'
 require 'yaml'
 
 project.name = '{{cookiecutter.app_name}}'
@@ -36,6 +37,13 @@ application_for :ios, '{{cookiecutter.deployment_target}}' do |target|
     phase.input_paths = ['$TEMP_DIR/rswift-lastrun']
     phase.output_paths = [rswift_file]
   end
+end
+
+project.before_save do |generated_project|
+  generated_project.sort
+  generator = Censorius::UUIDGenerator.new([generated_project])
+  generator.generate!
+  generator.write_debug_paths unless ENV['CENSORIUS_SPEC_DEBUG'].nil?
 end
 
 project.after_save do
